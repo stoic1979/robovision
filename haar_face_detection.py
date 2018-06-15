@@ -25,6 +25,9 @@ for (x,y,w,h) in faces:
 
     # drawing rect for face
     cv.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+    # define roi for eyes detection,ideally, we should detect
+    # eyes within the rectangular bounds of a face
     roi_gray = gray[y:y+h, x:x+w]
     roi_color = img[y:y+h, x:x+w]
 
@@ -34,6 +37,6 @@ for (x,y,w,h) in faces:
         cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
 
 # showing image
-cv.imshow('img',img)
+cv.imshow('Haar Face Detection', img)
 cv.waitKey(0)
 cv.destroyAllWindows()
