@@ -11,11 +11,11 @@ Robovision is a smart, trained, machine learning, AI based system which can see,
 - Command line tool (under development) for various image processing features.
 
 # Coming soon...
+- Iris identification.
 - Audio commands.
-- Office code of conduct compliance checks.
+- Office code of conduct compliance checks eg. check if an employee is talking on phone, when it is not allowed in office.
 - Talk to users for several actions, eg. greeting Good Morning when an employee enters an office.
 - On the fly train itself to identify, new comers in the office.
-- Iris identification.
 
 # Screenshots
 - Haar cascade classifier
