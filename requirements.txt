@@ -1,3 +1,4 @@
 numpy==1.14.4
 opencv-python==3.4.1.15
+Pillow==5.1.0
 pyttsx3==2.7
