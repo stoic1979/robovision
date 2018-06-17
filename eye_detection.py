@@ -5,49 +5,56 @@
 import numpy as np
 import cv2 as cv
 
-# lets us pretrained cascade classifiers of opencv for face and eyes detection
+class EyeDetector:
 
-# train/initialize face classifier
-face_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_frontalface_default.xml')
+    def __init__(self):
 
-# train/initialize eye classifier
-eye_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_eye.xml')
+        # lets us pretrained cascade classifiers of opencv for face and eyes detection
 
-# reading data from webcam
-# for internal webcam on laptop use 0
-# for external webcam on laptop/PC use 1
-cap = cv.VideoCapture(0)
+        # train/initialize face classifier
+        face_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_frontalface_default.xml')
 
-while True:
+        # train/initialize eye classifier
+        eye_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_eye.xml')
 
-    ret, img = cap.read()
+        # reading data from webcam
+        # for internal webcam on laptop use 0
+        # for external webcam on laptop/PC use 1
+        cap = cv.VideoCapture(0)
 
-    # HAAR cascade will need a grayscaled image to detect faces and eyes
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        while True:
 
-    # lets find faces in the image and get their positions
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    for (x,y,w,h) in faces:
+            ret, img = cap.read()
 
-        # define roi for eyes detection,ideally, we should detect
-        # eyes within the rectangular bounds of a face
-        roi_gray = gray[y:y+h, x:x+w]
-        roi_color = img[y:y+h, x:x+w]
+            # HAAR cascade will need a grayscaled image to detect faces and eyes
+            gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
-        # drawing rects for eyes
-        eyes = eye_cascade.detectMultiScale(roi_gray)
-        for (ex,ey,ew,eh) in eyes:
-            cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+            # lets find faces in the image and get their positions
+            faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+            for (x,y,w,h) in faces:
 
-    # showing image
-    cv.imshow('Haar Face Detection', img)
+                # define roi for eyes detection,ideally, we should detect
+                # eyes within the rectangular bounds of a face
+                roi_gray = gray[y:y+h, x:x+w]
+                roi_color = img[y:y+h, x:x+w]
 
-    # wait for key for 10 mscs, or continue
-    k = cv.waitKey(10) & 0xff
+                # drawing rects for eyes
+                eyes = eye_cascade.detectMultiScale(roi_gray)
+                for (ex,ey,ew,eh) in eyes:
+                    cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
 
-    # if 'esc' pressed, terminate
-    if k == 27:
-        break
+            # showing image
+            cv.imshow('Haar Face Detection', img)
 
-cap.release()
-cv.destroyAllWindows()
+            # wait for key for 10 mscs, or continue
+            k = cv.waitKey(10) & 0xff
+
+            # if 'esc' pressed, terminate
+            if k == 27:
+                break
+
+        cap.release()
+        cv.destroyAllWindows()
+
+if __name__ == "__main__":
+    ed = EyeDetector()
