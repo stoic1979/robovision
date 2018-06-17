@@ -56,6 +56,9 @@ class EyeDetector:
             roi_gray = gray[y:y+h, x:x+w]
             roi_color = img[y:y+h, x:x+w]
 
+            # save face to image for testing purpose
+            cv.imwrite("../my-face.png", roi_gray)
+
             # drawing rects for eyes
             eyes = self.eye_cascade.detectMultiScale(roi_gray)
             for (ex,ey,ew,eh) in eyes:
