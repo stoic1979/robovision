@@ -61,8 +61,11 @@ class EyeDetector:
             for (ex,ey,ew,eh) in eyes:
                 cv.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (255, 0, 0), 2)
 
+        font = cv.FONT_HERSHEY_SIMPLEX
+        cv.putText(img,'Press Esc to quit',(10,450), font, 1,(255,255,255),1,cv.LINE_AA)
+
         # showing image
-        cv.imshow('Haar Face Detection', img)
+        cv.imshow('Haar Eye Detection', img)
 
 if __name__ == "__main__":
     # path to Haar face classfier's xml file
