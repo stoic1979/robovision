@@ -3,7 +3,7 @@ AI and machine leaned computer vision for a robot
 
 # Motivation
 Surveillance cameras are passive, they need humans to watch the footage caputered by them and to make decisions or take actions.
-Robovision is an smart, trained, machine learning, AI based system which can see, make decisions, listen and speak.
+Robovision is a smart, trained, machine learning, AI based system which can see, make decisions, listen and speak.
 
 # Features
 - Face detection from an image using Haar cascade classifier
@@ -15,6 +15,7 @@ Robovision is an smart, trained, machine learning, AI based system which can see
 - Office code of conduct compliance checks.
 - Talk to users for several actions, eg. greeting Good Morning when an employee enters an office.
 - On the fly train itself to identify, new comers in the office.
+- Iris identification.
 
 # Screenshots
 - Haar cascade classifier
