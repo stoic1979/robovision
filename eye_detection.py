@@ -7,15 +7,15 @@ import cv2 as cv
 
 class EyeDetector:
 
-    def __init__(self):
+    def __init__(self, face_cascade_xml, eye_cascade_xml):
 
         # lets us pretrained cascade classifiers of opencv for face and eyes detection
 
         # train/initialize face classifier
-        face_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_frontalface_default.xml')
+        face_cascade = cv.CascadeClassifier(face_cascade_xml)
 
         # train/initialize eye classifier
-        eye_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_eye.xml')
+        eye_cascade = cv.CascadeClassifier(eye_cascade_xml)
 
         # reading data from webcam
         # for internal webcam on laptop use 0
@@ -41,7 +41,7 @@ class EyeDetector:
                 # drawing rects for eyes
                 eyes = eye_cascade.detectMultiScale(roi_gray)
                 for (ex,ey,ew,eh) in eyes:
-                    cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+                    cv.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (255, 0, 0), 2)
 
             # showing image
             cv.imshow('Haar Face Detection', img)
@@ -57,4 +57,11 @@ class EyeDetector:
         cv.destroyAllWindows()
 
 if __name__ == "__main__":
-    ed = EyeDetector()
+    # path to Haar face classfier's xml file
+    face_cascade_xml = './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
+
+    # path to Haar eye classfier's xml file
+    eye_cascade_xml = './cascades/haarcascades_cuda/haarcascade_eye.xml'
+
+    # run the eye detector with given classfiers
+    ed = EyeDetector(face_cascade_xml, eye_cascade_xml)
