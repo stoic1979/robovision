@@ -1,5 +1,5 @@
 # robovision
-AI and machine leaned computer vision for a robot
+AI and machine leaning-based computer vision for a robot
 
 # Motivation
 Surveillance cameras are passive, they need humans to watch the footage caputered by them and to make decisions or take actions.
