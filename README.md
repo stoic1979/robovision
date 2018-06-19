@@ -9,6 +9,7 @@ Robovision is a smart, trained, machine learning, AI based system which can see,
 - Face detection from an image using Haar cascade classifier
 - Eyes detection from an image using cascade classifiers.
 - Command line tool (under development) for various image processing features.
+- Auto mark attendance of an employee with AI camera software.
 
 # Coming soon...
 - Iris identification.
