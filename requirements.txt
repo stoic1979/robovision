@@ -3,5 +3,7 @@ numpy==1.14.4
 opencv-contrib-python==3.4.1.15
 opencv-python==3.4.1.15
 Pillow==5.1.0
+PyQt5==5.10.1
 pyttsx3==2.7
+sip==4.19.8
 SpeechRecognition==3.8.1
