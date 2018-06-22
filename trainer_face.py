@@ -64,12 +64,12 @@ class FaceTrainer:
         print (label_ids)
 
         # save trained labels
-        with open("labels.pickle", 'wb') as f:
+        with open("dataset/labels.pickle", 'wb') as f:
             pickle.dump(label_ids, f)
 
 
         recognizer.train(x_train, np.array(y_labels))
-        recognizer.save("trainer.yml")
+        recognizer.save("dataset/trainer.yml")
 
 if __name__ == "__main__":
     # path to Haar face classfier's xml file
