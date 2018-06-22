@@ -103,5 +103,14 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+
+##########################################
+#  ADDED BY NAVI
+##########################################
+
 # local settings file for project
 local_settings.py
+labels.pickle
+trainer.yml
+
+
