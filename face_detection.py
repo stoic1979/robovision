@@ -13,6 +13,10 @@ face_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_fr
 # train/initialize eye classifier
 eye_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_eye.xml')
 
+# creating a face recognier with pretrained data
+recognizer = cv.face.LBPHFaceRecognizer_create() 
+recognizer.read("dataset/face_trainer.yml")
+
 # reading data from webcam
 # for internal webcam on laptop use 0
 # for external webcam on laptop/PC use 1
@@ -36,6 +40,14 @@ while True:
         # eyes within the rectangular bounds of a face
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
+
+        # identify the face with recognizer
+        id_, conf = recognizer.predict(roi_gray)
+
+        if conf > 45 and conf <= 85:
+            # Hurray, we detected a face !!!
+            print("image id", id_)
+            print("conf", conf)
 
         # drawing rects for eyes
         eyes = eye_cascade.detectMultiScale(roi_gray)
