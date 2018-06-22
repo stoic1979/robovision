@@ -21,7 +21,6 @@ x_train = []
 cur_id = 0
 label_ids = {}
 
-
 # fetching images from dataset for training
 for root, dirs, files in os.walk(FACE_IMAGES_DATASET_DIR):
     for file in files:
@@ -62,7 +61,7 @@ print (label_ids)
 
 # save trained labels
 with open("labels.pickle", 'wb') as f:
-    pickle.dump(label_ids)
+    pickle.dump(label_ids, f)
 
 
 recognizer.train(x_train, np.array(y_labels))
