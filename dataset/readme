@@ -1,0 +1,5 @@
+Directory for generated dataset.
+
+Contents are:
+
+1. Generated training data for face trainer - trainer.yml and labels.pickle.
