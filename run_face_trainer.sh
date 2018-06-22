@@ -3,17 +3,19 @@
 #
 
 # remove previous trainig data
+echo "[INFO] removing previously trained dataset"
 rm dataset/face_trainer.yml
 rm dataset/face_trainer_labels.pickle
 echo
 
 # do the training
+echo "[INFO] dong face identification training"
 python face_trainer.py
 echo
 
 # generated training data
 
-echo "Dataset generated"
+echo "[INFO] Dataset generated"
 echo
 echo "--------------------------------------------------------"
 # face trained data
