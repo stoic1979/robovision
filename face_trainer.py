@@ -17,7 +17,7 @@ class FaceTrainer:
 
     def __init__(self, face_cascade_xml):
 
-        face_cascade = cv.CascadeClassifier('./cascades/haarcascades_cuda/haarcascade_frontalface_default.xml')
+        face_cascade = cv.CascadeClassifier(face_cascade_xml)
         recognizer = cv.face.LBPHFaceRecognizer_create() 
 
         y_labels = []
