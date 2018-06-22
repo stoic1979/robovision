@@ -13,6 +13,7 @@ import pickle
 
 from local_settings import FACE_IMAGES_DATASET_DIR
 
+
 class FaceTrainer:
 
     def __init__(self, face_cascade_xml):
@@ -39,9 +40,6 @@ class FaceTrainer:
                     img_id = label_ids[label]
                     print (label, img_id, full_path)
 
-                    #y_labels.append(label)
-                    #x_train.append(full_path)
-
                     # convert image to grayscale
                     pil_image = Image.open(full_path).convert("L")
 
@@ -59,17 +57,15 @@ class FaceTrainer:
                         x_train.append(roi)
                         y_labels.append(img_id)
 
-        #print (y_labels)
-        #print (x_train)
         print (label_ids)
 
         # save trained labels
         with open("dataset/face_trainer_labels.pickle", 'wb') as f:
             pickle.dump(label_ids, f)
 
-
         recognizer.train(x_train, np.array(y_labels))
         recognizer.save("dataset/face_trainer.yml")
+
 
 if __name__ == "__main__":
     # path to Haar face classfier's xml file

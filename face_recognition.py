@@ -48,7 +48,7 @@ class FaceRecognition:
             for (x,y,w,h) in faces:
 
                 # drawing rect for face
-                cv.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+                cv.rectangle(img,(x,y),(x+w,y+h),(255, 0, 0), 2)
 
                 # define roi for eyes detection,ideally, we should detect
                 # eyes within the rectangular bounds of a face
@@ -62,14 +62,14 @@ class FaceRecognition:
                     name = labels[index]
                     # Hurray, we detected a face !!!
                     print("Identified face: Name: %s, index: %d, confidence level: %d" % (name, index, conf))
-                    cv.putText(img, name, (x,y), font, 1,(255,255,255),1,cv.LINE_AA)
+                    cv.putText(img, name, (x,y), font, 1, (255,255,255), 1, cv.LINE_AA)
 
                 # drawing rects for eyes
                 eyes = eye_cascade.detectMultiScale(roi_gray)
                 for (ex,ey,ew,eh) in eyes:
-                    cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+                    cv.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
 
-            cv.putText(img,'Press Esc to quit',(10,450), font, 1,(255,255,255),1,cv.LINE_AA)
+            cv.putText(img,'Press Esc to quit', (10, 450), font, 1, (255, 255, 255), 1, cv.LINE_AA)
 
             # showing image
             cv.imshow('Haar Face Detection', img)
