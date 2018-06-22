@@ -4,6 +4,7 @@
 
 import numpy as np
 import cv2 as cv
+import pickle
 
 # lets us pretrained cascade classifiers of opencv for face and eyes detection
 
@@ -21,6 +22,15 @@ recognizer.read("dataset/face_trainer.yml")
 # for internal webcam on laptop use 0
 # for external webcam on laptop/PC use 1
 cap = cv.VideoCapture(0)
+
+labels = {}
+
+font = cv.FONT_HERSHEY_SIMPLEX
+
+# load trained labels
+with open("dataset/face_trainer_labels.pickle", 'rb') as f:
+    org_labels = pickle.load(f)
+    labels = {v:k for k,v in org_labels.items()}
 
 while True:
 
@@ -42,17 +52,20 @@ while True:
         roi_color = img[y:y+h, x:x+w]
 
         # identify the face with recognizer
-        id_, conf = recognizer.predict(roi_gray)
+        index, conf = recognizer.predict(roi_gray)
 
         if conf > 45 and conf <= 85:
+            name = labels[index]
             # Hurray, we detected a face !!!
-            print("image id", id_)
-            print("conf", conf)
+            print("Identified face: Name: %s, index: %d, confidence level: %d" % (name, index, conf))
+            cv.putText(img, name, (x,y), font, 1,(255,255,255),1,cv.LINE_AA)
 
         # drawing rects for eyes
         eyes = eye_cascade.detectMultiScale(roi_gray)
         for (ex,ey,ew,eh) in eyes:
             cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+
+    cv.putText(img,'Press Esc to quit',(10,450), font, 1,(255,255,255),1,cv.LINE_AA)
 
     # showing image
     cv.imshow('Haar Face Detection', img)
