@@ -125,7 +125,6 @@ def main(haar_cascade_filepath):
 if __name__ == '__main__':
     script_dir = path.dirname(path.realpath(__file__))
 
-    face_cascade_xml =
-    './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
+    face_cascade_xml = './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
 
     main(face_cascade_xml)
