@@ -26,7 +26,9 @@ import os
 
 from PyQt5 import QtGui, QtCore, uic
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QMessageBox, QListWidgetItem
+from PyQt5.QtWidgets import (
+        QApplication, QWidget, QMenu, QMainWindow, QMessageBox,
+        QListWidgetItem, QSystemTrayIcon, QStyle, QAction, qApp)
 from PyQt5.uic import loadUi
 
 from logger import get_logger
@@ -46,9 +48,45 @@ class AppWindow(QMainWindow):
         # loaind ui from xml
         uic.loadUi(os.path.join(DIRPATH, 'app.ui'), self)
 
-
         # button event handlers
         self.btnOk.clicked.connect(self.ok_pressed)
+
+        self.setup_tray_menu()
+
+    def setup_tray_menu(self):
+
+        # setting up QSystemTrayIcon
+        self.tray_icon = QSystemTrayIcon(self)
+        self.tray_icon.setIcon(
+                self.style().standardIcon(QStyle.SP_ComputerIcon))
+
+        # tray actions
+        show_action = QAction("Show", self)
+        quit_action = QAction("Exit", self)
+        hide_action = QAction("Hide", self)
+
+        # action handlers
+        show_action.triggered.connect(self.show)
+        hide_action.triggered.connect(self.hide)
+        quit_action.triggered.connect(qApp.quit)
+
+        # tray menu
+        tray_menu = QMenu()
+        tray_menu.addAction(show_action)
+        tray_menu.addAction(hide_action)
+        tray_menu.addAction(quit_action)
+        self.tray_icon.setContextMenu(tray_menu)
+        self.tray_icon.show()
+
+    def closeEvent(self, event):
+        event.ignore()
+        self.hide()
+        self.tray_icon.showMessage(
+            "RoboVision",
+            "RoboVision was minimized to Tray",
+            QSystemTrayIcon.Information,
+            2000
+        )
 
     def ok_pressed(self):
         log.debug("[AppWindow] :: ok")
@@ -59,11 +97,11 @@ class AppWindow(QMainWindow):
         Function for showing error/info message box
         """
         msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information) 
+        msg.setIcon(QMessageBox.Information)
         msg.setText(text)
         msg.setWindowTitle(title)
         msg.setStandardButtons(QMessageBox.Ok)
-	
+
         retval = msg.exec_()
         print("[INFO] Value of pressed message box button:", retval)
 
@@ -76,6 +114,6 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     window = AppWindow()
-    window.resize(1240, 820)	
+    window.resize(1240, 820)
     window.show()
     sys.exit(app.exec_())
