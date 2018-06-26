@@ -63,6 +63,8 @@ class AppWindow(QMainWindow):
 
         self.btnChooseClassifierXML.clicked.connect(self.choose_classifier_file)
 
+        self.btnChooseImage.clicked.connect(self.choose_image_for_analysis)
+
         self.setup_tray_menu()
 
         # add camera ids
@@ -75,8 +77,11 @@ class AppWindow(QMainWindow):
         self.actionExit.triggered.connect(qApp.quit)
         self.actionPreferences.triggered.connect(self.show_preferences)
 
-        self.img_widget = ImageWidget()
-        self.hlayoutVideoAnalysis.addWidget(self.img_widget)
+        self.img_widget_vid_analysis = ImageWidget()
+        self.hlayoutVideoAnalysis.addWidget(self.img_widget_vid_analysis)
+
+        self.img_widget_img_analysis = ImageWidget()
+        self.hlayoutImageAnalysis.addWidget(self.img_widget_img_analysis)
 
         self.vid_capture = VideoCapture()
         self.vid_capture.got_image_data_from_camera.connect(
@@ -96,6 +101,18 @@ class AppWindow(QMainWindow):
         log.info("chose classfier xml file: %s" % fname[0])
         self.teClassifierXML.setText(fname[0])
 
+    def choose_image_for_analysis(self):
+        fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')
+        log.info("chose imagefile: %s, for analysis" % fname[0])
+        self.teImage.setText(fname[0])
+
+        img = cv2.imread(fname[0]) 
+        print ("type:", type(img))
+        #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        #self.img_widget_img_analysis.handle_image_data(image_data)
+        self.img_widget_img_analysis.handle_image_data(img)
+        
+
     def start_capture_for_video_analysis(self):
         log.debug("start video capture")
         self.vid_capture.start()
@@ -103,7 +120,7 @@ class AppWindow(QMainWindow):
     def stop_capture_for_video_analysis(self):
         log.debug("start video capture")
         self.vid_capture.stop()
-        self.img_widget.reset()
+        self.img_widget_vid_analysis.reset()
 
     def detect_face_in_image_data(self, image_data):
         """
@@ -140,7 +157,7 @@ class AppWindow(QMainWindow):
     def process_image_data_from_camera(self, image_data):
         if self.chkHighlightFaces.isChecked():
             image_data = self.detect_face_in_image_data(image_data)
-        self.img_widget.handle_image_data(image_data)
+        self.img_widget_vid_analysis.handle_image_data(image_data)
 
     def about(self):
         ad = AboutDialog()
