@@ -29,7 +29,7 @@ import numpy as np
 from PyQt5 import QtGui, QtCore, uic
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import (
-        QApplication, QWidget, QMenu, QMainWindow, QMessageBox,
+        QApplication, QWidget, QMenu, QMainWindow, QMessageBox, QFileDialog,
         QListWidgetItem, QSystemTrayIcon, QStyle, QAction, qApp)
 from PyQt5.uic import loadUi
 
@@ -61,6 +61,8 @@ class AppWindow(QMainWindow):
         self.btnStopCaptureForVideoAnalysis.clicked.connect(
                 self.stop_capture_for_video_analysis)
 
+        self.btnChooseClassifierXML.clicked.connect(self.choose_classifier_file)
+
         self.setup_tray_menu()
 
         # add camera ids
@@ -89,6 +91,10 @@ class AppWindow(QMainWindow):
         else:
             print ("no")
 
+    def choose_classifier_file(self):
+        fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')
+        log.info("chose classfier xml file: %s" % fname[0])
+        self.teClassifierXML.setText(fname[0])
 
     def start_capture_for_video_analysis(self):
         log.debug("start video capture")
