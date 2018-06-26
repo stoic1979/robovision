@@ -59,6 +59,7 @@ class AppWindow(QMainWindow):
         # add camera ids
         for i in range(0, 11):
             self.cboxCameraIds.addItem(str(i))
+            self.cboxCameraIds1.addItem(str(i))
 
         # setting up handlers for menubar actions
         self.actionAbout.triggered.connect(self.about)
