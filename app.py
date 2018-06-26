@@ -31,6 +31,9 @@ from PyQt5.QtWidgets import (
         QListWidgetItem, QSystemTrayIcon, QStyle, QAction, qApp)
 from PyQt5.uic import loadUi
 
+from about_dialog import AboutDialog
+from prefs_dialog import PrefsDialog
+
 from logger import get_logger
 log = get_logger()
 
@@ -52,6 +55,24 @@ class AppWindow(QMainWindow):
         #self.btnOk.clicked.connect(self.ok_pressed)
 
         self.setup_tray_menu()
+
+        # add camera ids
+        for i in range(0, 11):
+            self.cboxCameraIds.addItem(str(i))
+
+        # setting up handlers for menubar actions
+        self.actionAbout.triggered.connect(self.about)
+        self.actionExit.triggered.connect(qApp.quit)
+        self.actionPreferences.triggered.connect(self.show_preferences)
+
+    def about(self):
+        ad = AboutDialog()
+        ad.display()
+
+    def show_preferences(self):
+        print("preferences")
+        pd = PrefsDialog()
+        pd.display()
 
     def setup_tray_menu(self):
 
