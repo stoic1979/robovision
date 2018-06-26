@@ -49,7 +49,7 @@ class AppWindow(QMainWindow):
         uic.loadUi(os.path.join(DIRPATH, 'app.ui'), self)
 
         # button event handlers
-        self.btnOk.clicked.connect(self.ok_pressed)
+        #self.btnOk.clicked.connect(self.ok_pressed)
 
         self.setup_tray_menu()
 
