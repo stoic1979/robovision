@@ -1526,7 +1526,7 @@
        <string>Stop Video Recording</string>
       </property>
      </widget>
-     <widget class="QCheckBox" name="checkBox_5">
+     <widget class="QCheckBox" name="chkHighlightFaces">
       <property name="geometry">
        <rect>
         <x>10</x>

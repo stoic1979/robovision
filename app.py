@@ -80,6 +80,16 @@ class AppWindow(QMainWindow):
         self.vid_capture.got_image_data_from_camera.connect(
                 self.process_image_data_from_camera)
 
+        self.highlight_faces = self.chkHighlightFaces.isChecked()
+        self.chkHighlightFaces.stateChanged.connect(self.highlight_faces_checkbox_changed)
+
+    def highlight_faces_checkbox_changed(self):
+        if self.chkHighlightFaces.isChecked():
+            print ("yes")
+        else:
+            print ("no")
+
+
     def start_capture_for_video_analysis(self):
         log.debug("start video capture")
         self.vid_capture.start()
@@ -122,7 +132,8 @@ class AppWindow(QMainWindow):
         return image_data
 
     def process_image_data_from_camera(self, image_data):
-        image_data = self.detect_face_in_image_data(image_data)
+        if self.chkHighlightFaces.isChecked():
+            image_data = self.detect_face_in_image_data(image_data)
         self.img_widget.handle_image_data(image_data)
 
     def about(self):
