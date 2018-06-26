@@ -23,6 +23,8 @@
 
 import sys
 import os
+import cv2
+import numpy as np
 
 from PyQt5 import QtGui, QtCore, uic
 from PyQt5.QtCore import pyqtSlot
@@ -33,6 +35,8 @@ from PyQt5.uic import loadUi
 
 from about_dialog import AboutDialog
 from prefs_dialog import PrefsDialog
+from video_capture import VideoCapture
+from image_widget import ImageWidget
 
 from logger import get_logger
 log = get_logger()
@@ -52,7 +56,10 @@ class AppWindow(QMainWindow):
         uic.loadUi(os.path.join(DIRPATH, 'app.ui'), self)
 
         # button event handlers
-        #self.btnOk.clicked.connect(self.ok_pressed)
+        self.btnStartCaptureForVideoAnalysis.clicked.connect(
+                self.start_capture_for_video_analysis)
+        self.btnStopCaptureForVideoAnalysis.clicked.connect(
+                self.stop_capture_for_video_analysis)
 
         self.setup_tray_menu()
 
@@ -65,6 +72,25 @@ class AppWindow(QMainWindow):
         self.actionAbout.triggered.connect(self.about)
         self.actionExit.triggered.connect(qApp.quit)
         self.actionPreferences.triggered.connect(self.show_preferences)
+
+        self.img_widget = ImageWidget()
+        self.hlayoutVideoAnalysis.addWidget(self.img_widget)
+
+        self.vid_capture = VideoCapture()
+        self.vid_capture.got_image_data_from_camera.connect(
+                self.process_image_data_from_camera)
+
+    def start_capture_for_video_analysis(self):
+        log.debug("start video capture")
+        self.vid_capture.start()
+
+    def stop_capture_for_video_analysis(self):
+        log.debug("start video capture")
+        self.vid_capture.stop()
+        self.img_widget.reset()
+
+    def process_image_data_from_camera(self, image_data):
+        self.img_widget.handle_image_data(image_data)
 
     def about(self):
         ad = AboutDialog()

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1161</width>
+    <width>1140</width>
     <height>581</height>
    </rect>
   </property>
@@ -1354,7 +1354,7 @@
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnBrowseImage_6">
+     <widget class="QPushButton" name="btnStopCaptureForVideoAnalysis">
       <property name="geometry">
        <rect>
         <x>370</x>
@@ -1404,7 +1404,7 @@
        <string>Stop Capture</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnBrowseImage_7">
+     <widget class="QPushButton" name="btnStartCaptureForVideoAnalysis">
       <property name="geometry">
        <rect>
         <x>220</x>
@@ -1453,6 +1453,17 @@
       <property name="text">
        <string>Start Capture</string>
       </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>50</y>
+        <width>481</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="hlayoutVideoAnalysis"/>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
@@ -2155,7 +2166,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1161</width>
+     <width>1140</width>
      <height>25</height>
     </rect>
    </property>
