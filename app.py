@@ -89,7 +89,40 @@ class AppWindow(QMainWindow):
         self.vid_capture.stop()
         self.img_widget.reset()
 
+    def detect_face_in_image_data(self, image_data):
+        """
+        function detects faces in image data,
+        draws rectangle for faces in image data,
+        and returns this updated image data with highlighted face/s
+        """
+        self._red = (0, 0, 255)
+        self._width = 2
+        self._min_size = (30, 30)
+
+        # haarclassifiers work better in black and white
+        gray_image = cv2.cvtColor(image_data, cv2.COLOR_BGR2GRAY)
+        gray_image = cv2.equalizeHist(gray_image)
+
+        # path to Haar face classfier's xml file
+        face_cascade_xml = './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
+        self.classifier = cv2.CascadeClassifier(face_cascade_xml)
+        faces = self.classifier.detectMultiScale(gray_image,
+                                                 scaleFactor=1.3,
+                                                 minNeighbors=4,
+                                                 flags=cv2.CASCADE_SCALE_IMAGE,
+                                                 minSize=self._min_size)
+
+        for (x, y, w, h) in faces:
+            cv2.rectangle(image_data,
+                          (x, y),
+                          (x+w, y+h),
+                          self._red,
+                          self._width)
+
+        return image_data
+
     def process_image_data_from_camera(self, image_data):
+        image_data = self.detect_face_in_image_data(image_data)
         self.img_widget.handle_image_data(image_data)
 
     def about(self):
