@@ -35,7 +35,7 @@ class VideoCapture(QObject):
     Class interested in processing this image will need to connect the slot.
     """
 
-    # slot for emitting a frame captured from camera
+    # signal for emitting a frame captured from camera
     got_image_data_from_camera = pyqtSignal(np.ndarray)
 
     def __init__(self, camera_port=0, parent=None):
@@ -44,9 +44,11 @@ class VideoCapture(QObject):
         self.timer = QBasicTimer()
 
     def start(self):
+        log.info("video capture started")
         self.timer.start(0, self)
 
     def stop(self):
+        log.info("video capture stopped")
         self.timer.stop()
 
     def timerEvent(self, event):
