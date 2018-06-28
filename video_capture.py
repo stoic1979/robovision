@@ -22,8 +22,11 @@
 """
 
 import cv2
+from logger import get_logger
 import numpy as np
 from PyQt5.QtCore import QObject, pyqtSlot, pyqtSignal, QBasicTimer
+
+log = get_logger()
 
 
 class VideoCapture(QObject):
