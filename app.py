@@ -26,12 +26,10 @@ import os
 import cv2
 import numpy as np
 
-from PyQt5 import QtGui, QtCore, uic
-from PyQt5.QtCore import pyqtSlot
+from PyQt5 import uic
 from PyQt5.QtWidgets import (
         QApplication, QWidget, QMenu, QMainWindow, QMessageBox, QFileDialog,
-        QListWidgetItem, QSystemTrayIcon, QStyle, QAction, qApp)
-from PyQt5.uic import loadUi
+        QSystemTrayIcon, QStyle, QAction, qApp)
 
 from PIL import Image
 
@@ -111,7 +109,7 @@ class AppWindow(QMainWindow):
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')
         self.teIdentifyFace.setText(fname[0])
 
-        img = cv2.imread(fname[0]) 
+        img = cv2.imread(fname[0])
         self.img_widget_identify_face.handle_image_data(img)
 
     def start_face_trainer(self):
@@ -148,7 +146,7 @@ class AppWindow(QMainWindow):
     def grayscale_checkbox_changed(self):
         fname = self.teImage.toPlainText()
         print(fname)
-        img = cv2.imread(fname) 
+        img = cv2.imread(fname)
         if self.chckGrayscale.isChecked():
             # convert image to grayscale
             pil_image = Image.open(fname).convert("L")
@@ -163,9 +161,9 @@ class AppWindow(QMainWindow):
 
     def highlight_faces_checkbox_changed(self):
         if self.chkHighlightFaces.isChecked():
-            print ("yes")
+            print("yes")
         else:
-            print ("no")
+            print("no")
 
     def choose_classifier_file(self):
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')
@@ -177,7 +175,7 @@ class AppWindow(QMainWindow):
         log.info("chose imagefile: %s, for analysis" % fname[0])
         self.teImage.setText(fname[0])
 
-        img = cv2.imread(fname[0]) 
+        img = cv2.imread(fname[0])
         self.img_widget_img_analysis.handle_image_data(img)
         
 
@@ -287,6 +285,7 @@ class AppWindow(QMainWindow):
 
         retval = msg.exec_()
         print("[INFO] Value of pressed message box button:", retval)
+
 
 ##############################################################################
 #                                                                            #
