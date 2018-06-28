@@ -23,7 +23,7 @@
 
 import os
 
-from PyQt5 import QtGui, QtCore, uic
+from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog, QWidget
 
 DIRPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)))
