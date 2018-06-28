@@ -81,7 +81,11 @@ class AppWindow(QMainWindow):
         self.actionPreferences.triggered.connect(self.show_preferences)
 
         self.img_widget_vid_analysis = ImageWidget()
+
         self.hlayoutVideoAnalysis.addWidget(self.img_widget_vid_analysis)
+
+        self.img_widget_face_training = ImageWidget()
+        self.hlayoutFaceTrainingImg.addWidget(self.img_widget_face_training)
 
         self.img_widget_img_analysis = ImageWidget()
         self.hlayoutImageAnalysis.addWidget(self.img_widget_img_analysis)
@@ -116,6 +120,9 @@ class AppWindow(QMainWindow):
     def processing_image_for_training(self, label, fname):
         log.info("processing image for training: '%s'" % label)
         self.lblFaceTrainerCurImg.setText(label)
+
+        img = cv2.imread(fname) 
+        self.img_widget_face_training.handle_image_data(img)
 
     def browse_dataset_for_face_trainer(self):
         dataset_dir = str(QFileDialog.getExistingDirectory(self, 'Select directory for dataset', '/home'))

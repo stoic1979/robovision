@@ -2489,8 +2489,8 @@
      <widget class="QLabel" name="lblFaceTrainerCurImg">
       <property name="geometry">
        <rect>
-        <x>640</x>
-        <y>320</y>
+        <x>660</x>
+        <y>350</y>
         <width>381</width>
         <height>20</height>
        </rect>
@@ -2639,10 +2639,10 @@
      <widget class="QLabel" name="lblFaceTrainingStatus">
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>40</x>
         <y>190</y>
-        <width>311</width>
-        <height>17</height>
+        <width>481</width>
+        <height>20</height>
        </rect>
       </property>
       <property name="palette">
@@ -2719,6 +2719,17 @@
       <property name="text">
        <string>Status: </string>
       </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>10</y>
+        <width>421</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="hlayoutFaceTrainingImg"/>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
