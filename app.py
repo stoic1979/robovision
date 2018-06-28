@@ -81,11 +81,13 @@ class AppWindow(QMainWindow):
         self.actionPreferences.triggered.connect(self.show_preferences)
 
         self.img_widget_vid_analysis = ImageWidget()
-
         self.hlayoutVideoAnalysis.addWidget(self.img_widget_vid_analysis)
 
         self.img_widget_face_training = ImageWidget()
         self.hlayoutFaceTrainingImg.addWidget(self.img_widget_face_training)
+
+        self.img_widget_identify_face = ImageWidget()
+        self.hlayoutIdentifyFace.addWidget(self.img_widget_identify_face)
 
         self.img_widget_img_analysis = ImageWidget()
         self.hlayoutImageAnalysis.addWidget(self.img_widget_img_analysis)
@@ -102,6 +104,15 @@ class AppWindow(QMainWindow):
         self.btnBrowseDatasetForFaceTrainer.clicked.connect(self.browse_dataset_for_face_trainer)
         self.btnBrowseClassifierForFaceTrainer.clicked.connect(self.browse_classifier_file_for_face_trainer)
         self.btnStartFaceTrainer.clicked.connect(self.start_face_trainer)
+
+        self.btnBrowseIdentifyFace.clicked.connect(self.browse_identify_face)
+
+    def browse_identify_face(self):
+        fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')
+        self.teIdentifyFace.setText(fname[0])
+
+        img = cv2.imread(fname[0]) 
+        self.img_widget_identify_face.handle_image_data(img)
 
     def start_face_trainer(self):
         dataset_dir = self.teFaceTrainerDataset.toPlainText()
