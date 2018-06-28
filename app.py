@@ -106,7 +106,12 @@ class AppWindow(QMainWindow):
 
         ft = FaceTrainer(classifier_xml, dataset_dir)
         ft.processing_image.connect(self.processing_image_for_training)
+        ft.face_training_finished.connect(self.face_training_finished)
         ft.start()
+        self.lblFaceTrainingStatus.setText("FACE TRAINING UNDER PROGRESS")
+
+    def face_training_finished(self):
+        self.lblFaceTrainingStatus.setText("FACE TRAINING FINISHED")
 
     def processing_image_for_training(self, label, fname):
         log.info("processing image for training: '%s'" % label)
