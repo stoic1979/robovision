@@ -25,6 +25,9 @@ import cv2
 import numpy as np
 from PyQt5.QtCore import QObject, pyqtSlot, pyqtSignal, QBasicTimer
 
+from logger import get_logger
+log = get_logger()
+
 
 class VideoCapture(QObject):
     """
