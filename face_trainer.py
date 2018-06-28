@@ -34,12 +34,14 @@ from PIL import Image
 import cv2 as cv
 import pickle
 
-from local_settings import FACE_IMAGES_DATASET_DIR
 
 
 class FaceTrainer:
 
-    def __init__(self, face_cascade_xml):
+    # signal for emitting a frame captured from camera
+    processing_image = pyqtSignal('QString', 'QString')
+
+    def __init__(self, face_cascade_xml, face_images_dataset_dir):
 
         face_cascade = cv.CascadeClassifier(face_cascade_xml)
         recognizer = cv.face.LBPHFaceRecognizer_create() 
@@ -50,7 +52,7 @@ class FaceTrainer:
         label_ids = {}
 
         # fetching images from dataset for training
-        for root, dirs, files in os.walk(FACE_IMAGES_DATASET_DIR):
+        for root, dirs, files in os.walk(face_images_dataset_dir):
             for file in files:
                 if file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):
                     full_path = os.path.join(root, file)
@@ -62,6 +64,8 @@ class FaceTrainer:
 
                     img_id = label_ids[label]
                     print (label, img_id, full_path)
+
+                    self.processing_image.emit(label, full_path)
 
                     # convert image to grayscale
                     pil_image = Image.open(full_path).convert("L")
@@ -94,4 +98,5 @@ if __name__ == "__main__":
     # path to Haar face classfier's xml file
     face_cascade_xml = './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
 
-    ft = FaceTrainer(face_cascade_xml)
+    from local_settings import FACE_IMAGES_DATASET_DIR
+    ft = FaceTrainer(face_cascade_xml, FACE_IMAGES_DATASET_DIR)
