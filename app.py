@@ -39,6 +39,7 @@ from about_dialog import AboutDialog
 from prefs_dialog import PrefsDialog
 from video_capture import VideoCapture
 from image_widget import ImageWidget
+from face_trainer import FaceTrainer
 
 from logger import get_logger
 log = get_logger()
@@ -92,6 +93,36 @@ class AppWindow(QMainWindow):
         self.highlight_faces = self.chkHighlightFaces.isChecked()
         self.chkHighlightFaces.stateChanged.connect(self.highlight_faces_checkbox_changed)
         self.chckGrayscale.stateChanged.connect(self.grayscale_checkbox_changed)
+
+        # face trainer dataset browser btn handler
+        self.btnBrowseDatasetForFaceTrainer.clicked.connect(self.browse_dataset_for_face_trainer)
+        self.btnBrowseClassifierForFaceTrainer.clicked.connect(self.browse_classifier_file_for_face_trainer)
+        self.btnStartFaceTrainer.clicked.connect(self.start_face_trainer)
+
+    def start_face_trainer(self):
+        dataset_dir = self.teFaceTrainerDataset.toPlainText()
+        classifier_xml = self.teFaceTrainerClassifier.toPlainText()
+        log.info("starting face trainer with classifier '%s' and dataset '%s'" % (classifier_xml, dataset_dir))
+
+        ft = FaceTrainer(classifier_xml, dataset_dir)
+        ft.processing_image.connect(self.processing_image_for_training)
+        ft.start()
+
+    def processing_image_for_training(self, label, fname):
+        log.info("processing image for training: '%s'" % label)
+        self.lblFaceTrainerCurImg.setText(label)
+
+    def browse_dataset_for_face_trainer(self):
+        dataset_dir = str(QFileDialog.getExistingDirectory(self, 'Select directory for dataset', '/home'))
+        log.info("dataset dir file: %s" % dataset_dir)
+        self.teFaceTrainerDataset.setText(dataset_dir)
+
+
+    def browse_classifier_file_for_face_trainer(self):
+        classifier_xml = QFileDialog.getOpenFileName(self, 'Open file', '/home')
+        log.info("classifier xml file: %s" % classifier_xml[0])
+        self.teFaceTrainerClassifier.setText(classifier_xml[0])
+
 
     def grayscale_checkbox_changed(self):
         fname = self.teImage.toPlainText()
