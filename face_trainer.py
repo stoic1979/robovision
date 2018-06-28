@@ -35,16 +35,22 @@ import cv2 as cv
 import pickle
 
 
+from PyQt5.QtCore import QObject, pyqtSignal
 
-class FaceTrainer:
+class FaceTrainer(QObject):
 
     # signal for emitting a frame captured from camera
     processing_image = pyqtSignal('QString', 'QString')
 
-    def __init__(self, face_cascade_xml, face_images_dataset_dir):
+    def __init__(self, face_cascade_xml, face_images_dataset_dir, parent=None):
+        super().__init__(parent)
 
-        face_cascade = cv.CascadeClassifier(face_cascade_xml)
-        recognizer = cv.face.LBPHFaceRecognizer_create() 
+        self.face_cascade = cv.CascadeClassifier(face_cascade_xml)
+        self.recognizer = cv.face.LBPHFaceRecognizer_create() 
+
+        self.face_images_dataset_dir = face_images_dataset_dir
+
+    def start(self):
 
         y_labels = []
         x_train = []
@@ -52,7 +58,7 @@ class FaceTrainer:
         label_ids = {}
 
         # fetching images from dataset for training
-        for root, dirs, files in os.walk(face_images_dataset_dir):
+        for root, dirs, files in os.walk(self.face_images_dataset_dir):
             for file in files:
                 if file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):
                     full_path = os.path.join(root, file)
@@ -74,7 +80,7 @@ class FaceTrainer:
                     image_array = np.array(pil_image, "uint8")
                     #print(image_array)
 
-                    faces = face_cascade.detectMultiScale(image_array, 1.3, 5)
+                    faces = self.face_cascade.detectMultiScale(image_array, 1.3, 5)
 
 
                     for (x,y,w,h) in faces:
@@ -90,8 +96,8 @@ class FaceTrainer:
         with open("dataset/face_trainer_labels.pickle", 'wb') as f:
             pickle.dump(label_ids, f)
 
-        recognizer.train(x_train, np.array(y_labels))
-        recognizer.save("dataset/face_trainer.yml")
+        self.recognizer.train(x_train, np.array(y_labels))
+        self.recognizer.save("dataset/face_trainer.yml")
 
 
 if __name__ == "__main__":
@@ -100,3 +106,4 @@ if __name__ == "__main__":
 
     from local_settings import FACE_IMAGES_DATASET_DIR
     ft = FaceTrainer(face_cascade_xml, FACE_IMAGES_DATASET_DIR)
+    ft.start()
