@@ -119,7 +119,7 @@ class AppWindow(QMainWindow):
 
     def processing_image_for_training(self, label, fname):
         log.info("processing image for training: '%s'" % label)
-        self.lblFaceTrainerCurImg.setText(label)
+        self.lblFaceTrainerCurImg.setText("Learning face of: '%s' " % label)
 
         img = cv2.imread(fname) 
         self.img_widget_face_training.handle_image_data(img)
@@ -129,12 +129,10 @@ class AppWindow(QMainWindow):
         log.info("dataset dir file: %s" % dataset_dir)
         self.teFaceTrainerDataset.setText(dataset_dir)
 
-
     def browse_classifier_file_for_face_trainer(self):
         classifier_xml = QFileDialog.getOpenFileName(self, 'Open file', '/home')
         log.info("classifier xml file: %s" % classifier_xml[0])
         self.teFaceTrainerClassifier.setText(classifier_xml[0])
-
 
     def grayscale_checkbox_changed(self):
         fname = self.teImage.toPlainText()
