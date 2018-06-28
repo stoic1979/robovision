@@ -33,6 +33,8 @@ from PyQt5.QtWidgets import (
         QListWidgetItem, QSystemTrayIcon, QStyle, QAction, qApp)
 from PyQt5.uic import loadUi
 
+from PIL import Image
+
 from about_dialog import AboutDialog
 from prefs_dialog import PrefsDialog
 from video_capture import VideoCapture
@@ -89,6 +91,23 @@ class AppWindow(QMainWindow):
 
         self.highlight_faces = self.chkHighlightFaces.isChecked()
         self.chkHighlightFaces.stateChanged.connect(self.highlight_faces_checkbox_changed)
+        self.chckGrayscale.stateChanged.connect(self.grayscale_checkbox_changed)
+
+    def grayscale_checkbox_changed(self):
+        fname = self.teImage.toPlainText()
+        print(fname)
+        img = cv2.imread(fname) 
+        if self.chckGrayscale.isChecked():
+            # convert image to grayscale
+            pil_image = Image.open(fname).convert("L")
+
+            # convery grayscale image to numpy array
+            image_array = np.array(pil_image, "uint8")
+
+            # FIXME - code crashes here !!!
+            self.img_widget_img_analysis.handle_image_data(image_array)
+        else:
+            self.img_widget_img_analysis.handle_image_data(img)
 
     def highlight_faces_checkbox_changed(self):
         if self.chkHighlightFaces.isChecked():
@@ -107,9 +126,6 @@ class AppWindow(QMainWindow):
         self.teImage.setText(fname[0])
 
         img = cv2.imread(fname[0]) 
-        print ("type:", type(img))
-        #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        #self.img_widget_img_analysis.handle_image_data(image_data)
         self.img_widget_img_analysis.handle_image_data(img)
         
 

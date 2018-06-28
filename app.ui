@@ -1209,7 +1209,7 @@
        <string>IMAGE VIEW</string>
       </property>
      </widget>
-     <widget class="QCheckBox" name="checkBox_3">
+     <widget class="QCheckBox" name="chckGrayscale">
       <property name="geometry">
        <rect>
         <x>20</x>
