@@ -37,10 +37,13 @@ import pickle
 
 from PyQt5.QtCore import QObject, pyqtSignal
 
-class FaceTrainer(QObject):
+from threading import Thread
+
+class FaceTrainer(QObject, Thread):
 
     # signal for emitting a frame captured from camera
     processing_image = pyqtSignal('QString', 'QString')
+    face_training_finished = pyqtSignal()
 
     def __init__(self, face_cascade_xml, face_images_dataset_dir, parent=None):
         super().__init__(parent)
@@ -50,7 +53,7 @@ class FaceTrainer(QObject):
 
         self.face_images_dataset_dir = face_images_dataset_dir
 
-    def start(self):
+    def run(self):
 
         y_labels = []
         x_train = []
@@ -99,6 +102,8 @@ class FaceTrainer(QObject):
         self.recognizer.train(x_train, np.array(y_labels))
         self.recognizer.save("dataset/face_trainer.yml")
 
+        self.face_training_finished.emit()
+
 
 if __name__ == "__main__":
     # path to Haar face classfier's xml file
@@ -107,3 +112,4 @@ if __name__ == "__main__":
     from local_settings import FACE_IMAGES_DATASET_DIR
     ft = FaceTrainer(face_cascade_xml, FACE_IMAGES_DATASET_DIR)
     ft.start()
+    ft.join()
