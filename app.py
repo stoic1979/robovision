@@ -31,6 +31,8 @@ from PyQt5.QtWidgets import (
         QApplication, QWidget, QMenu, QMainWindow, QMessageBox, QFileDialog,
         QSystemTrayIcon, QStyle, QAction, qApp)
 
+from PyQt5.QtGui import QIcon
+
 from PIL import Image
 
 from about_dialog import AboutDialog
@@ -56,6 +58,9 @@ class AppWindow(QMainWindow):
         # loaind ui from xml
         uic.loadUi(os.path.join(DIRPATH, 'app.ui'), self)
 
+        # FIXME - libpng warning: iCCP: known incorrect sRGB profile
+        self.setWindowIcon(QIcon("./images/robot_icon.png"))
+
         # button event handlers
         self.btnStartCaptureForVideoAnalysis.clicked.connect(
                 self.start_capture_for_video_analysis)
@@ -78,17 +83,23 @@ class AppWindow(QMainWindow):
         self.actionExit.triggered.connect(qApp.quit)
         self.actionPreferences.triggered.connect(self.show_preferences)
 
+        # video analysis image widget
         self.img_widget_vid_analysis = ImageWidget()
         self.hlayoutVideoAnalysis.addWidget(self.img_widget_vid_analysis)
 
+        # face training image widget
         self.img_widget_face_training = ImageWidget()
         self.hlayoutFaceTrainingImg.addWidget(self.img_widget_face_training)
 
+        # face identification image widget
         self.img_widget_identify_face = ImageWidget()
         self.hlayoutIdentifyFace.addWidget(self.img_widget_identify_face)
 
+        # image analysis image widget
         self.img_widget_img_analysis = ImageWidget()
         self.hlayoutImageAnalysis.addWidget(self.img_widget_img_analysis)
+        img = cv2.imread("images/human.png")
+        self.img_widget_img_analysis.handle_image_data(img)
 
         self.vid_capture = VideoCapture()
         self.vid_capture.got_image_data_from_camera.connect(
