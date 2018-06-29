@@ -39,6 +39,9 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 from threading import Thread
 
+from global_signals import g_emitter
+
+
 class FaceTrainer(QObject, Thread):
 
     # signal for emitting a frame captured from camera
@@ -62,10 +65,16 @@ class FaceTrainer(QObject, Thread):
 
         # fetching images from dataset for training
         for root, dirs, files in os.walk(self.face_images_dataset_dir):
+
+            # FIXME - adding talkative settings in prefs !!!
+            # if our robot it too talkative, emit this signal
+            g_emitter().emit_signal_to_feed_mouth( "checking %s" % os.path.basename(root))
+
             for file in files:
                 if file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):
                     full_path = os.path.join(root, file)
                     label = os.path.basename(root).replace(" ", "-").lower()
+
 
                     if not label in label_ids:
                         label_ids[label] = cur_id
