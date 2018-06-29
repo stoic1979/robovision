@@ -25,6 +25,7 @@ import os
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog, QWidget
+from utils import add_image_to_label
 
 DIRPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 
@@ -36,6 +37,9 @@ class AboutDialog(QDialog):
 
         # loaind ui from xml
         self.ui = uic.loadUi(os.path.join(DIRPATH, 'about_dialog.ui'), self)
+        add_image_to_label(self.lblIcon, "./images/robot_icon_small.png")
+
+        self.setFixedSize(self.size())
 
     def display(self):
         self.ui.show()
