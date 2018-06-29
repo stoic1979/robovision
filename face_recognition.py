@@ -29,6 +29,9 @@ import numpy as np
 import cv2 as cv
 import pickle
 
+from logger import get_logger
+log = get_logger()
+
 
 class FaceRecognition:
 
@@ -42,6 +45,7 @@ class FaceRecognition:
         eye_cascade = cv.CascadeClassifier(eye_cascade_xml)
 
         # creating a face recognier with pretrained data
+        log.info("creating recognier from pre-trained data")
         recognizer = cv.face.LBPHFaceRecognizer_create() 
         recognizer.read("dataset/face_trainer.yml")
 
@@ -59,6 +63,7 @@ class FaceRecognition:
             org_labels = pickle.load(f)
             labels = {v:k for k,v in org_labels.items()}
 
+        log.info("capturing video data")
         while True:
 
             ret, img = cap.read()
@@ -81,7 +86,7 @@ class FaceRecognition:
                 # identify the face with recognizer
                 index, conf = recognizer.predict(roi_gray)
 
-                if conf > 45 and conf <= 85:
+                if conf > 75 and conf <= 95:
                     name = labels[index]
                     # Hurray, we detected a face !!!
                     print("Identified face: Name: %s, index: %d, confidence level: %d" % (name, index, conf))
