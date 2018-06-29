@@ -12,6 +12,10 @@ Robovision is a smart, trained, machine learning, AI based system which can see,
 - Command line tool (under development) for various image processing features.
 - Auto mark attendance of an employee with AI camera software.
 
+# Dependencies
+- PyQt5
+- Opencv 3.4.x
+
 # Coming soon...
 - Iris identification.
 - Audio commands.
