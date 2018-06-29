@@ -25,20 +25,12 @@ import logging
 import os
 import datetime
 
+from singleton import SingletonType
+
 #
 # A singleton logger that will be used globally by the project
 # All the log files are created inside ./logs/ dir with current date
 #
-
-
-class SingletonType(type):
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(
-                    SingletonType, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
 
 
 class Logger(object, metaclass=SingletonType):
