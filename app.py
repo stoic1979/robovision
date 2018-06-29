@@ -40,6 +40,7 @@ from prefs_dialog import PrefsDialog
 from video_capture import VideoCapture
 from image_widget import ImageWidget
 from face_trainer import FaceTrainer
+from robot import Robot
 
 from logger import get_logger
 log = get_logger()
@@ -118,6 +119,10 @@ class AppWindow(QMainWindow):
         self.btnStartFaceTrainer.clicked.connect(self.start_face_trainer)
 
         self.btnBrowseIdentifyFace.clicked.connect(self.browse_identify_face)
+
+        # create and start robot
+        self.robot = Robot(self.lblRobot)
+        self.robot.start()
 
     def browse_identify_face(self):
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')
@@ -284,6 +289,8 @@ class AppWindow(QMainWindow):
             QSystemTrayIcon.Information,
             2000
         )
+        self.robot.stop()
+        self.robot.join()
 
     def ok_pressed(self):
         log.debug("[AppWindow] :: ok")
