@@ -61,6 +61,9 @@ class AppWindow(QMainWindow):
         # FIXME - libpng warning: iCCP: known incorrect sRGB profile
         self.setWindowIcon(QIcon("./images/robot_icon.png"))
 
+        # keep the window fixed sized
+        self.setFixedSize(self.size())
+
         # button event handlers
         self.btnStartCaptureForVideoAnalysis.clicked.connect(
                 self.start_capture_for_video_analysis)
@@ -193,7 +196,6 @@ class AppWindow(QMainWindow):
         img = cv2.imread(fname[0])
         self.img_widget_img_analysis.handle_image_data(img)
         
-
     def start_capture_for_video_analysis(self):
         log.debug("start video capture")
         self.vid_capture.start()

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1170</width>
+    <width>1236</width>
     <height>657</height>
    </rect>
   </property>
@@ -429,23 +429,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTextEdit" name="teLogs">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>450</y>
-      <width>1081</width>
-      <height>78</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1081</width>
-      <height>431</height>
+      <width>1221</width>
+      <height>421</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -3309,7 +3299,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1170</width>
+     <width>1236</width>
      <height>25</height>
     </rect>
    </property>

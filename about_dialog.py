@@ -39,6 +39,7 @@ class AboutDialog(QDialog):
         self.ui = uic.loadUi(os.path.join(DIRPATH, 'about_dialog.ui'), self)
         add_image_to_label(self.lblIcon, "./images/robot_icon_small.png")
 
+        # keep the window fixed sized
         self.setFixedSize(self.size())
 
     def display(self):
