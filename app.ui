@@ -3309,37 +3309,37 @@
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>200</x>
       <y>460</y>
-      <width>81</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Lets talk !</string>
+     <string>Tell Neo to speak it !</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="teTalk">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>500</y>
-      <width>421</width>
-      <height>31</height>
+      <x>200</x>
+      <y>480</y>
+      <width>411</width>
+      <height>71</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="btnTalk">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>550</y>
+      <x>200</x>
+      <y>560</y>
       <width>99</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>Talk</string>
+     <string>Speak</string>
     </property>
    </widget>
   </widget>

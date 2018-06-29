@@ -43,6 +43,7 @@ from face_trainer import FaceTrainer
 from robot import Robot
 from mouth import Mouth
 from utils import speak_text
+from global_signals import g_emitter
 
 from logger import get_logger
 log = get_logger()
@@ -78,6 +79,7 @@ class AppWindow(QMainWindow):
         self.btnChooseImage.clicked.connect(self.choose_image_for_analysis)
 
         self.setup_tray_menu()
+
 
         # add camera ids
         for i in range(0, 11):
@@ -129,12 +131,16 @@ class AppWindow(QMainWindow):
         self.robot.start()
 
         self.mouth = Mouth()
+
+        # connect global signals to slots
+        g_emitter().feed_mouth.connect(self.mouth.feed_text)
+
         self.mouth.start()
 
     def lets_talk(self):
         text = self.teTalk.toPlainText()
-        log.info("speaking: %s" % text)
-        speak_text(text)
+        self.teTalk.setText("")
+        g_emitter().emit_signal_to_feed_mouth(text)
 
     def browse_identify_face(self):
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')

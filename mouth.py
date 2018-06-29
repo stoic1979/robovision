@@ -45,13 +45,9 @@ class Mouth(QObject, Thread):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        # max capacity of mouth
         BUF_SIZE = 100
         self.queue = Queue(BUF_SIZE)
-
-        # dummy data
-        self.queue.put("hello navi")
-        self.queue.put("you are great")
-        self.queue.put("i like you")
 
     @pyqtSlot('QString')
     def feed_text(self, text):
@@ -64,6 +60,10 @@ class Mouth(QObject, Thread):
                 text = self.queue.get()
                 time.sleep(1)
                 log.info("Mouth speaking text: %s" % text)
+
+                # ignore empty/None texts
+                if not text or not len(text):
+                    continue
                 speak_text(text)
             else:
                 time.sleep(1)
