@@ -1,0 +1,69 @@
+#!/usr/bin/python3
+
+"""
+ RoboVision
+ ______________
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ Project Author/Architect: Navjot Singh <weavebytes@gmail.com>
+
+"""
+
+#
+# a mouth that maintains of queue of text to be spoken
+#
+# it has a slot to feed text to be spoken by it
+#
+# this text is added in a queue to be played
+
+import time
+from multiprocessing import Queue
+from threading import Thread
+
+from PyQt5.QtCore import QObject, pyqtSlot
+
+from utils import speak_text
+
+from logger import get_logger
+log = get_logger()
+
+
+class Mouth(QObject, Thread):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        BUF_SIZE = 100
+        self.queue = Queue(BUF_SIZE)
+
+        # dummy data
+        self.queue.put("hello navi")
+        self.queue.put("you are great")
+        self.queue.put("i like you")
+
+    @pyqtSlot('QString')
+    def feed_text(self, text):
+        log.info("Mouth fed with text: %s" % text)
+        self.queue.put(text)
+
+    def run(self):
+        while True:
+            if not self.queue.empty():
+                text = self.queue.get()
+                time.sleep(1)
+                log.info("Mouth speaking text: %s" % text)
+                speak_text(text)
+            else:
+                time.sleep(1)

@@ -41,6 +41,7 @@ from video_capture import VideoCapture
 from image_widget import ImageWidget
 from face_trainer import FaceTrainer
 from robot import Robot
+from mouth import Mouth
 from utils import speak_text
 
 from logger import get_logger
@@ -126,6 +127,9 @@ class AppWindow(QMainWindow):
         # create and start robot
         self.robot = Robot(self.lblRobot)
         self.robot.start()
+
+        self.mouth = Mouth()
+        self.mouth.start()
 
     def lets_talk(self):
         text = self.teTalk.toPlainText()
