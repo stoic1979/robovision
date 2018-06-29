@@ -253,8 +253,7 @@ class AppWindow(QMainWindow):
 
         # setting up QSystemTrayIcon
         self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(
-                self.style().standardIcon(QStyle.SP_ComputerIcon))
+        self.tray_icon.setIcon(QIcon("./images/robot_icon.png"))
 
         # tray actions
         show_action = QAction("Show", self)
