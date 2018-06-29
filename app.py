@@ -130,8 +130,12 @@ class AppWindow(QMainWindow):
         log.info("processing image for training: '%s'" % label)
         self.lblFaceTrainerCurImg.setText("Learning face of: '%s' " % label)
 
-        img = cv2.imread(fname) 
-        self.img_widget_face_training.handle_image_data(img)
+        try:
+            img = cv2.imread(fname) 
+            self.img_widget_face_training.handle_image_data(img)
+        except Exception as exp:
+            log.warning("failed while processing image '%s' while training" % fname)
+            log.warning("Exception: %s" % str(exp))
 
     def browse_dataset_for_face_trainer(self):
         dataset_dir = str(QFileDialog.getExistingDirectory(self, 'Select directory for dataset', '/home'))
