@@ -16,9 +16,17 @@ Robovision is a smart, trained, machine learning, AI based system which can see,
 - PyQt5
 - Opencv 3.4.x
 
+# Setup/Installation
+- Use python 3.x
+- pip install -r requirements.py
+- Use run.sh to run the application
+- Dont hesitate to report the bugs and issues you face !
+
 # Coming soon...
+- Robot Neo that will be monitoring all acitvties in app.
+- The Neo will talk or chat with you.
+- Neo will accept your audio commands.
 - Iris identification.
-- Audio commands.
 - Office code of conduct compliance checks eg. check if an employee is talking on phone, when it is not allowed in office.
 - Talk to users for several actions, eg. greeting Good Morning when an employee enters an office.
 - On the fly train itself to identify, new comers in the office.
