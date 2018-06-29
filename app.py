@@ -41,6 +41,7 @@ from video_capture import VideoCapture
 from image_widget import ImageWidget
 from face_trainer import FaceTrainer
 from robot import Robot
+from utils import speak_text
 
 from logger import get_logger
 log = get_logger()
@@ -120,9 +121,16 @@ class AppWindow(QMainWindow):
 
         self.btnBrowseIdentifyFace.clicked.connect(self.browse_identify_face)
 
+        self.btnTalk.clicked.connect(self.lets_talk)
+
         # create and start robot
         self.robot = Robot(self.lblRobot)
         self.robot.start()
+
+    def lets_talk(self):
+        text = self.teTalk.toPlainText()
+        log.info("speaking: %s" % text)
+        speak_text(text)
 
     def browse_identify_face(self):
         fname = QFileDialog.getOpenFileName(self, 'Open file', '/home')

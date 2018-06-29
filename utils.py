@@ -22,7 +22,7 @@
 """
 
 from PyQt5.QtGui import QPixmap
-
+import pyttsx3
 
 def add_image_to_label(lbl, img_path):
     """
@@ -37,3 +37,9 @@ def add_image_to_label(lbl, img_path):
  
     # optional, resize window to image size
     lbl.resize(pixmap.width(),pixmap.height())
+
+def speak_text(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+
