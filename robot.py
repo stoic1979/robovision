@@ -27,13 +27,43 @@ from threading import Thread
 
 from utils import add_image_to_label
 
+from random import randint
+
+from logger import get_logger
+log = get_logger()
+
 
 class Robot(Thread):
+    """
+    robot can have states IDLE and SPEAKING,
+    depending upon state the facial images changes
+    """
 
 
     def __init__(self, lbl):
         super().__init__()
         self.lbl = lbl
+
+        self.idle_actions = {
+                "0": self.face_normal,
+                "1": self.look_left,
+                "2": self.look_right,
+                "3": self.look_up,
+                "4": self.look_down
+                }
+
+        self.speaking_actions = {
+                "0": self.face_normal,
+                "1": self.mouth_open
+                }
+
+        self.start_speaking()
+
+    def become_idle(self):
+        self.state = "IDLE"
+
+    def start_speaking(self):
+        self.state = "SPEAKING"
 
     def look_left(self):
         add_image_to_label(self.lbl, "./images/robot/look_left.png")
@@ -50,14 +80,35 @@ class Robot(Thread):
     def face_normal(self):
         add_image_to_label(self.lbl, "./images/robot/normal.png")
 
-    def face_open(self):
-        add_image_to_label(self.lbl, "./images/robot/normal.png")
+    def mouth_open(self):
+        add_image_to_label(self.lbl, "./images/robot/mouth_open.png")
+
+    def set_idle_face_img(self):
+        s = str(randint(0, 4))
+        try:
+            self.idle_actions[s]()
+        except Exception as exp:
+            log.warning("robot idle state action failed")
+            log.warning("with exception: %s" % str(exp))
+
+    def set_speaking_face_img(self):
+        s = str(randint(0, 1))
+        try:
+            self.speaking_actions[s]()
+        except Exception as exp:
+            log.warning("robot speaking state action failed")
+            log.warning("with exception: %s" % str(exp))
 
     def run(self):
         while True:
-            self.look_left()
-            time.sleep(1)
-            self.look_right()
-            time.sleep(1)
-            self.look_up()
-            time.sleep(1)
+            if self.state == "IDLE":
+                self.set_idle_face_img()
+                time.sleep(randint(1, 4))
+                continue
+
+            if self.state == "SPEAKING":
+                self.mouth_open()
+                time.sleep(1)
+                self.face_normal()
+                time.sleep(1)
+                continue
