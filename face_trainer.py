@@ -41,6 +41,9 @@ from threading import Thread
 
 from global_signals import g_emitter
 
+from logger import get_logger
+log = get_logger()
+
 
 class FaceTrainer(QObject, Thread):
 
@@ -52,7 +55,7 @@ class FaceTrainer(QObject, Thread):
         super().__init__(parent)
 
         self.face_cascade = cv.CascadeClassifier(face_cascade_xml)
-        self.recognizer = cv.face.LBPHFaceRecognizer_create() 
+        self.recognizer = cv.face.LBPHFaceRecognizer_create()
 
         self.face_images_dataset_dir = face_images_dataset_dir
 
@@ -68,20 +71,24 @@ class FaceTrainer(QObject, Thread):
 
             # FIXME - adding talkative settings in prefs !!!
             # if our robot it too talkative, emit this signal
-            g_emitter().emit_signal_to_feed_mouth( "checking %s" % os.path.basename(root))
+            g_emitter().emit_signal_to_feed_mouth(
+                    "checking %s" % os.path.basename(root))
 
             for file in files:
-                if file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):
+                # check file extension for image files
+                extension = os.path.splitext(file)[1]
+                if extension in [".jpg", ".jpeg", ".png"]:
                     full_path = os.path.join(root, file)
                     label = os.path.basename(root).replace(" ", "-").lower()
 
-
-                    if not label in label_ids:
+                    if label not in label_ids:
                         label_ids[label] = cur_id
                         cur_id += 1
 
                     img_id = label_ids[label]
-                    print (label, img_id, full_path)
+                    log.debug(
+                            "FaceTrainer :: %s - %s - %s"
+                            % (str(label), str(img_id), str(full_path)))
 
                     self.processing_image.emit(label, full_path)
 
@@ -90,19 +97,17 @@ class FaceTrainer(QObject, Thread):
 
                     # convery grayscale image to numpy array
                     image_array = np.array(pil_image, "uint8")
-                    #print(image_array)
 
-                    faces = self.face_cascade.detectMultiScale(image_array, 1.3, 5)
+                    faces = self.face_cascade.detectMultiScale(
+                            image_array, 1.3, 5)
 
-
-                    for (x,y,w,h) in faces:
-                        # define roi for eyes detection,ideally, we should detect
-                        # eyes within the rectangular bounds of a face
+                    for (x, y, w, h) in faces:
+                        # define roi for eyes detection,ideally,
+                        # we should detect eyes within the rectangular
+                        # bounds of a face
                         roi = image_array[y:y+h, x:x+w]
                         x_train.append(roi)
                         y_labels.append(img_id)
-
-        print (label_ids)
 
         # save trained labels
         with open("dataset/face_trainer_labels.pickle", 'wb') as f:
