@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
- PyLanMessenger
+ ROBOVISION
  ______________
 
  This program is free software: you can redistribute it and/or modify
