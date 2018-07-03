@@ -1493,7 +1493,7 @@
      <widget class="QLabel" name="lblFaceTrainerCurImg">
       <property name="geometry">
        <rect>
-        <x>660</x>
+        <x>740</x>
         <y>350</y>
         <width>381</width>
         <height>20</height>
@@ -1727,7 +1727,7 @@
      <widget class="QWidget" name="horizontalLayoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>590</x>
+        <x>690</x>
         <y>10</y>
         <width>421</width>
         <height>331</height>
@@ -3332,36 +3332,23 @@
      <string>lblRobot</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_15">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>460</y>
-      <width>151</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tell Neo to speak it !</string>
-    </property>
-   </widget>
    <widget class="QTextEdit" name="teTalk">
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>480</y>
-      <width>411</width>
-      <height>71</height>
+      <y>450</y>
+      <width>861</width>
+      <height>151</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="btnTalk">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>560</y>
-      <width>99</width>
-      <height>27</height>
+      <x>1090</x>
+      <y>450</y>
+      <width>131</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="text">
