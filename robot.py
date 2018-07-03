@@ -120,7 +120,7 @@ class Robot(QObject, Thread):
 
             if self.state == "SPEAKING":
                 self.mouth_open()
-                time.sleep(1)
+                time.sleep(.3)
                 self.face_normal()
-                time.sleep(1)
+                time.sleep(.2)
                 continue

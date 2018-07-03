@@ -60,7 +60,6 @@ class Mouth(QObject, Thread):
         while True:
             if not self.queue.empty():
                 text = self.queue.get()
-                time.sleep(1)
                 log.info("Mouth speaking text: %s" % text)
 
                 # ignore empty/None texts
@@ -70,7 +69,9 @@ class Mouth(QObject, Thread):
 
                 # tell face to change mouth animations to speaking
                 g_emitter().emit_signal_to_set_speaking_state()
+
+                time.sleep(.1)
             else:
                 # tell face to change mouth animations to idle
-                time.sleep(1)
+                time.sleep(.2)
                 g_emitter().emit_signal_to_set_idle_state()
