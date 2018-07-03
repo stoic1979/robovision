@@ -3309,7 +3309,7 @@
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>220</x>
       <y>460</y>
       <width>151</width>
       <height>21</height>
@@ -3322,7 +3322,7 @@
    <widget class="QTextEdit" name="teTalk">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>220</x>
       <y>480</y>
       <width>411</width>
       <height>71</height>
@@ -3332,7 +3332,7 @@
    <widget class="QPushButton" name="btnTalk">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>220</x>
       <y>560</y>
       <width>99</width>
       <height>27</height>
