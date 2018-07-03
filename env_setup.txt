@@ -1,0 +1,1 @@
+sudo apt install portaudio19-dev -y
