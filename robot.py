@@ -29,19 +29,28 @@ from utils import add_image_to_label
 
 from random import randint
 
+from PyQt5.QtCore import QObject, pyqtSlot, pyqtSignal
+
 from logger import get_logger
 log = get_logger()
 
 
-class Robot(Thread):
+class Robot(QObject, Thread):
     """
     robot can have states IDLE and SPEAKING,
     depending upon state the facial images changes
     """
 
+    @pyqtSlot()
+    def set_idle_state(self):
+        self.become_idle()
 
-    def __init__(self, lbl):
-        super().__init__()
+    @pyqtSlot()
+    def set_speaking_state(self):
+        self.start_speaking()
+
+    def __init__(self, lbl, parent=None):
+        super().__init__(parent)
         self.lbl = lbl
 
         self.idle_actions = {
@@ -57,7 +66,10 @@ class Robot(Thread):
                 "1": self.mouth_open
                 }
 
-        self.start_speaking()
+        #self.start_speaking()
+        self.become_idle()
+
+        log.debug("robot created")
 
     def become_idle(self):
         self.state = "IDLE"
@@ -84,7 +96,7 @@ class Robot(Thread):
         add_image_to_label(self.lbl, "./images/robot/mouth_open.png")
 
     def set_idle_face_img(self):
-        s = str(randint(0, 4))
+        s = str(randint(0, 2))
         try:
             self.idle_actions[s]()
         except Exception as exp:

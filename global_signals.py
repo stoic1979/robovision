@@ -38,12 +38,21 @@ from singleton import SingletonType
 class GlobalSignals(QObject):
 
     feed_mouth = pyqtSignal('QString')
+    set_speaking_state = pyqtSignal()
+    set_idle_state = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
     def emit_signal_to_feed_mouth(self, text):
         self.feed_mouth.emit(text)
+
+    def emit_signal_to_set_speaking_state(self):
+        self.set_speaking_state.emit()
+
+    def emit_signal_to_set_idle_state(self):
+        self.set_idle_state.emit()
+
 
 
 class GlobalSignalEmitter(object, metaclass=SingletonType):

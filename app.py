@@ -128,13 +128,15 @@ class AppWindow(QMainWindow):
 
         # create and start robot
         self.robot = Robot(self.lblRobot)
-        self.robot.start()
 
         self.mouth = Mouth()
 
         # connect global signals to slots
         g_emitter().feed_mouth.connect(self.mouth.feed_text)
+        g_emitter().set_speaking_state.connect(self.robot.set_speaking_state)
+        g_emitter().set_idle_state.connect(self.robot.set_idle_state)
 
+        self.robot.start()
         self.mouth.start()
 
     def lets_talk(self):

@@ -32,9 +32,11 @@ import time
 from multiprocessing import Queue
 from threading import Thread
 
-from PyQt5.QtCore import QObject, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSlot, pyqtSignal
 
 from utils import speak_text
+
+from global_signals import g_emitter
 
 from logger import get_logger
 log = get_logger()
@@ -65,5 +67,10 @@ class Mouth(QObject, Thread):
                 if not text or not len(text):
                     continue
                 speak_text(text)
+
+                # tell face to change mouth animations to speaking
+                g_emitter().emit_signal_to_set_speaking_state()
             else:
+                # tell face to change mouth animations to idle
                 time.sleep(1)
+                g_emitter().emit_signal_to_set_idle_state()
