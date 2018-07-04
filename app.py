@@ -164,6 +164,7 @@ class AppWindow(QMainWindow):
 
     def face_training_finished(self):
         self.lblFaceTrainingStatus.setText("FACE TRAINING FINISHED")
+        g_emitter().emit_signal_to_feed_mouth("face training finished")
 
     def processing_image_for_training(self, label, fname):
         log.info("processing image for training: '%s'" % label)
@@ -301,16 +302,19 @@ class AppWindow(QMainWindow):
         self.tray_icon.show()
 
     def closeEvent(self, event):
-        event.ignore()
-        self.hide()
-        self.tray_icon.showMessage(
-            "RoboVision",
-            "RoboVision was minimized to Tray",
-            QSystemTrayIcon.Information,
-            2000
-        )
-        self.robot.stop()
-        self.robot.join()
+        try:
+            event.ignore()
+            self.hide()
+            self.tray_icon.showMessage(
+                "RoboVision",
+                "RoboVision was minimized to Tray",
+                QSystemTrayIcon.Information,
+                2000
+            )
+            self.robot.stop()
+            self.robot.join()
+        except Exception as exp:
+            log.warning("app close exp: %s" % str(exp))
 
     def ok_pressed(self):
         log.debug("[AppWindow] :: ok")
