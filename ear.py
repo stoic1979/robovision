@@ -46,25 +46,26 @@ class Ear(QObject, Thread):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-
     def get_audio(self):
         """
-        get audio from the microphone. 
-        the SpeechRecognition package is used to automatically stop listening when the user stops speaking. 
+        Get audio from the microphone.
 
-        function returns the raw binary audio string (PCM)
+        The SpeechRecognition package is used to automatically stop listening
+        when the user stops speaking.
+
+        Function returns the raw binary audio string (PCM)
         """
         l = sr.Microphone.list_microphone_names()
         log.debug(l)
-        
+
         r = sr.Recognizer()
 
         di = l.index("default")
 
         with sr.Microphone(device_index=di) as source:
-        #with sr.Microphone() as source:
+            # with sr.Microphone() as source:
             log.debug("listening for audio from microphone")
-            #r.adjust_for_ambient_noise(source)
+            # r.adjust_for_ambient_noise(source)
             audio = r.listen(source)
             log.debug("listening done")
 
@@ -77,12 +78,13 @@ class Ear(QObject, Thread):
         return text
 
     def monitor_sounds(self):
-        #TODO check audio sounds and make decisions
+        # TODO check audio sounds and make decisions
         pass
 
     def run(self):
         """
-        thread function to continuously 
+        thread function to continuously monitor sounds
         """
         while True:
             monitor_sounds()
+            time.sleep(1)

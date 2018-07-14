@@ -74,12 +74,12 @@ class AppWindow(QMainWindow):
         self.btnStopCaptureForVideoAnalysis.clicked.connect(
                 self.stop_capture_for_video_analysis)
 
-        self.btnChooseClassifierXML.clicked.connect(self.choose_classifier_file)
+        self.btnChooseClassifierXML.clicked.connect(
+                self.choose_classifier_file)
 
         self.btnChooseImage.clicked.connect(self.choose_image_for_analysis)
 
         self.setup_tray_menu()
-
 
         # add camera ids
         for i in range(0, 11):
@@ -114,12 +114,16 @@ class AppWindow(QMainWindow):
                 self.process_image_data_from_camera)
 
         self.highlight_faces = self.chkHighlightFaces.isChecked()
-        self.chkHighlightFaces.stateChanged.connect(self.highlight_faces_checkbox_changed)
-        self.chckGrayscale.stateChanged.connect(self.grayscale_checkbox_changed)
+        self.chkHighlightFaces.stateChanged.connect(
+                self.highlight_faces_checkbox_changed)
+        self.chckGrayscale.stateChanged.connect(
+                self.grayscale_checkbox_changed)
 
         # face trainer dataset browser btn handler
-        self.btnBrowseDatasetForFaceTrainer.clicked.connect(self.browse_dataset_for_face_trainer)
-        self.btnBrowseClassifierForFaceTrainer.clicked.connect(self.browse_classifier_file_for_face_trainer)
+        self.btnBrowseDatasetForFaceTrainer.clicked.connect(
+                self.browse_dataset_for_face_trainer)
+        self.btnBrowseClassifierForFaceTrainer.clicked.connect(
+                self.browse_classifier_file_for_face_trainer)
         self.btnStartFaceTrainer.clicked.connect(self.start_face_trainer)
 
         self.btnBrowseIdentifyFace.clicked.connect(self.browse_identify_face)
@@ -154,7 +158,9 @@ class AppWindow(QMainWindow):
     def start_face_trainer(self):
         dataset_dir = self.teFaceTrainerDataset.toPlainText()
         classifier_xml = self.teFaceTrainerClassifier.toPlainText()
-        log.info("starting face trainer with classifier '%s' and dataset '%s'" % (classifier_xml, dataset_dir))
+        log.info(
+                "starting face trainer with classifier '%s', dataset '%s'" % (
+                    classifier_xml, dataset_dir))
 
         ft = FaceTrainer(classifier_xml, dataset_dir)
         ft.processing_image.connect(self.processing_image_for_training)
@@ -171,19 +177,22 @@ class AppWindow(QMainWindow):
         self.lblFaceTrainerCurImg.setText("Learning face of: '%s' " % label)
 
         try:
-            img = cv2.imread(fname) 
+            img = cv2.imread(fname)
             self.img_widget_face_training.handle_image_data(img)
         except Exception as exp:
-            log.warning("failed while processing image '%s' while training" % fname)
+            log.warning(
+                    "failed processing image '%s' while training" % fname)
             log.warning("Exception: %s" % str(exp))
 
     def browse_dataset_for_face_trainer(self):
-        dataset_dir = str(QFileDialog.getExistingDirectory(self, 'Select directory for dataset', '/home'))
+        dataset_dir = str(QFileDialog.getExistingDirectory(
+            self, 'Select directory for dataset', '/home'))
         log.info("dataset dir file: %s" % dataset_dir)
         self.teFaceTrainerDataset.setText(dataset_dir)
 
     def browse_classifier_file_for_face_trainer(self):
-        classifier_xml = QFileDialog.getOpenFileName(self, 'Open file', '/home')
+        classifier_xml = QFileDialog.getOpenFileName(
+                self, 'Open file', '/home')
         log.info("classifier xml file: %s" % classifier_xml[0])
         self.teFaceTrainerClassifier.setText(classifier_xml[0])
 
@@ -221,7 +230,7 @@ class AppWindow(QMainWindow):
 
         img = cv2.imread(fname[0])
         self.img_widget_img_analysis.handle_image_data(img)
-        
+
     def start_capture_for_video_analysis(self):
         log.debug("start video capture")
         self.vid_capture.start()
@@ -246,7 +255,8 @@ class AppWindow(QMainWindow):
         gray_image = cv2.equalizeHist(gray_image)
 
         # path to Haar face classfier's xml file
-        face_cascade_xml = './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
+        face_cascade_xml = './cascades/haarcascades_cuda/" \
+                "haarcascade_frontalface_default.xml'
         self.classifier = cv2.CascadeClassifier(face_cascade_xml)
         faces = self.classifier.detectMultiScale(gray_image,
                                                  scaleFactor=1.3,

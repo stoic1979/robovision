@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
- RoboVision
+ ROBOVISION
  ______________
 
  This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@ class FaceRecognition:
 
     def __init__(self, face_cascade_xml, eye_cascade_xml):
 
-
         # train/initialize face classifier
         face_cascade = cv.CascadeClassifier(face_cascade_xml)
 
@@ -46,7 +45,7 @@ class FaceRecognition:
 
         # creating a face recognier with pretrained data
         log.info("creating recognier from pre-trained data")
-        recognizer = cv.face.LBPHFaceRecognizer_create() 
+        recognizer = cv.face.LBPHFaceRecognizer_create()
         recognizer.read("dataset/face_trainer.yml")
 
         # reading data from webcam
@@ -61,22 +60,22 @@ class FaceRecognition:
         # load trained labels
         with open("dataset/face_trainer_labels.pickle", 'rb') as f:
             org_labels = pickle.load(f)
-            labels = {v:k for k,v in org_labels.items()}
+            labels = {v:k for k, v in org_labels.items()}
 
         log.info("capturing video data")
         while True:
 
             ret, img = cap.read()
 
-            # HAAR cascade will need a grayscaled image to detect faces and eyes
+            # HAAR cascade will need grayscaled image to detect faces and eyes
             gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
             # lets find faces in the image and get their positions
             faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-            for (x,y,w,h) in faces:
+            for (x, y, w, h) in faces:
 
                 # drawing rect for face
-                cv.rectangle(img,(x,y),(x+w,y+h),(255, 0, 0), 2)
+                cv.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
                 # define roi for eyes detection,ideally, we should detect
                 # eyes within the rectangular bounds of a face
@@ -89,15 +88,18 @@ class FaceRecognition:
                 if conf > 75 and conf <= 95:
                     name = labels[index]
                     # Hurray, we detected a face !!!
-                    print("Identified face: Name: %s, index: %d, confidence level: %d" % (name, index, conf))
-                    cv.putText(img, name, (x,y), font, 1, (255,255,255), 1, cv.LINE_AA)
+                    logger.info(
+                            "Identified face: Name: %s, index: %d, confidence level: %d" % (name, index, conf))
+                    cv.putText(
+                            img, name, (x, y), font, 1, (255, 255, 255), 1, cv.LINE_AA)
 
                 # drawing rects for eyes
                 eyes = eye_cascade.detectMultiScale(roi_gray)
-                for (ex,ey,ew,eh) in eyes:
+                for (ex, ey, ew, eh) in eyes:
                     cv.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
 
-            cv.putText(img,'Press Esc to quit', (10, 450), font, 1, (255, 255, 255), 1, cv.LINE_AA)
+            cv.putText(
+                    img, 'Press Esc to quit', (10, 450), font, 1, (255, 255, 255), 1, cv.LINE_AA)
 
             # showing image
             cv.imshow('Haar Face Detection', img)
@@ -114,7 +116,8 @@ class FaceRecognition:
 
 if __name__ == "__main__":
 
-    # lets use pretrained cascade classifiers of opencv for face and eyes detection
+    # lets use pretrained cascade classifiers of opencv
+    # for face and eyes detection
 
     # path to Haar face classfier's xml file
     face_cascade_xml = './cascades/haarcascades_cuda/haarcascade_frontalface_default.xml'
@@ -124,4 +127,3 @@ if __name__ == "__main__":
 
     # run the eye detector with given classfiers
     fr = FaceRecognition(face_cascade_xml, eye_cascade_xml)
-
