@@ -11,6 +11,11 @@ Robovision is a smart, trained, machine learning, AI based system which can see,
 - Eyes detection from an image using cascade classifiers.
 - Command line tool (under development) for various image processing features.
 - Auto mark attendance of an employee with AI camera software.
+- Neo - a well trained speaking robot.
+
+# A Quick Video Demo
+[![Robovision Demo](screenshots/video_demo.png?raw=true "Video Demo")](https://www.youtube.com/watch?v=CCOtPA1-ITs&t=15s)
+
 
 # Dependencies
 - PyQt5
