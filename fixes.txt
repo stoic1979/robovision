@@ -1,0 +1,5 @@
+activate the virtualenv and run the following commands
+ 
+pip uninstall opencv-contrib-python
+
+pip install opencv-contrib-python==3.3.0.9
