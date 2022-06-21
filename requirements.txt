@@ -1,7 +1,7 @@
 flake8==3.5.0
 imutils==0.4.6
 mccabe==0.6.1
-numpy==1.14.4
+numpy==1.22.0
 opencv-contrib-python==3.4.1.15
 opencv-python==3.4.1.15
 Pillow==5.1.0
