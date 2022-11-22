@@ -4,7 +4,7 @@ mccabe==0.6.1
 numpy==1.14.4
 opencv-contrib-python==3.4.1.15
 opencv-python==3.4.1.15
-Pillow==5.1.0
+Pillow==9.3.0
 PyAudio==0.2.11
 pycodestyle==2.3.1
 pyflakes==1.6.0
